@@ -1,3 +1,3 @@
-# Beer Service
+# Beer Service Module
 
 Spring Boot Microservice
