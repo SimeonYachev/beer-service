@@ -2,12 +2,16 @@ package com.scalefocus.java.simeonyachev.beerservice.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.scalefocus.java.simeonyachev.beerservice.web.model.BeerDTO;
+import com.scalefocus.java.simeonyachev.beerservice.web.model.BeerStyle;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -26,6 +30,18 @@ class BeerControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    BeerDTO beer;
+
+    @BeforeEach
+    void setUp() {
+        beer = BeerDTO.builder()
+                .name("Ariana")
+                .style(BeerStyle.ALE)
+                .price(new BigDecimal(12))
+                .upc(1234L)
+                .build();
+    }
+
     @Test
     void getByIdSuccessfully() throws Exception {
         mockMvc.perform(get(BEER_URI + UUID.randomUUID().toString()))
@@ -35,8 +51,7 @@ class BeerControllerTest {
 
     @Test
     void saveBeerSuccessfully() throws Exception {
-        BeerDTO beerDTO = BeerDTO.builder().build();
-        String beerDTOJson = objectMapper.writeValueAsString(beerDTO);
+        String beerDTOJson = objectMapper.writeValueAsString(beer);
 
         mockMvc.perform(post(BEER_URI)
                 .contentType(APPLICATION_JSON)
@@ -46,8 +61,7 @@ class BeerControllerTest {
 
     @Test
     void updateBeerSuccessfully() throws Exception {
-        BeerDTO beerDTO = BeerDTO.builder().build();
-        String beerDTOJson = objectMapper.writeValueAsString(beerDTO);
+        String beerDTOJson = objectMapper.writeValueAsString(beer);
 
         mockMvc.perform(put(BEER_URI + UUID.randomUUID().toString())
                 .contentType(APPLICATION_JSON)
