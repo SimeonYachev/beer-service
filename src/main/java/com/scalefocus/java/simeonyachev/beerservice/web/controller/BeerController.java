@@ -1,5 +1,6 @@
 package com.scalefocus.java.simeonyachev.beerservice.web.controller;
 
+import com.scalefocus.java.simeonyachev.beerservice.services.BeerService;
 import com.scalefocus.java.simeonyachev.beerservice.repositories.BeerRepository;
 import com.scalefocus.java.simeonyachev.beerservice.web.mappers.BeerMapper;
 import com.scalefocus.java.simeonyachev.beerservice.web.model.BeerDTO;
@@ -17,30 +18,22 @@ import java.util.UUID;
 public class BeerController {
 
     private final BeerMapper beerMapper;
+    private final BeerService beerService;
     private final BeerRepository beerRepository;
 
     @GetMapping("/{beerId}")
     public ResponseEntity<BeerDTO> getById(@PathVariable("beerId") UUID beerId) {
-        return new ResponseEntity<>(beerMapper.beerToBeerDTO(beerRepository.findById(beerId).get()), HttpStatus.OK);
+        return new ResponseEntity<>(beerService.getById(beerId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity saveBeer(@Valid @RequestBody BeerDTO beerDTO) {
-        beerRepository.save(beerMapper.beerDTOToBeer(beerDTO));
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity<BeerDTO> saveBeer(@Valid @RequestBody BeerDTO beerDTO) {
+        return new ResponseEntity<>(beerService.saveNewBeer(beerDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{beerId}")
-    public ResponseEntity updateBeer(@PathVariable("beerId") UUID beerId,
+    public ResponseEntity<BeerDTO> updateBeer(@PathVariable("beerId") UUID beerId,
                                               @Valid @RequestBody BeerDTO beerDTO) {
-        beerRepository.findById(beerId).ifPresent(beer -> {
-            beer.setName(beerDTO.getName());
-            beer.setStyle(beerDTO.getStyle().name());
-            beer.setPrice(beerDTO.getPrice());
-            beer.setUpc(beerDTO.getUpc());
-
-            beerRepository.save(beer);
-        });
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(beerService.updateBeer(beerId, beerDTO), HttpStatus.OK);
     }
 }

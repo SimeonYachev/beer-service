@@ -1,5 +1,6 @@
 package com.scalefocus.java.simeonyachev.beerservice.web.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +10,8 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 
 @Data
 @Builder
@@ -22,6 +25,7 @@ public class BeerDTO {
     private Integer version;
 
     @Null
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ", shape = STRING)
     private OffsetDateTime createdDate;
     @Null
     private OffsetDateTime lastModifiedDate;
@@ -35,6 +39,7 @@ public class BeerDTO {
 
     @NotNull
     @Positive
+    @JsonFormat(shape = STRING)
     private BigDecimal price;
 
     @NotNull
