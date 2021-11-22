@@ -2,19 +2,21 @@ package com.scalefocus.java.simeonyachev.beerservice.bootstrap;
 
 import com.scalefocus.java.simeonyachev.beerservice.domain.Beer;
 import com.scalefocus.java.simeonyachev.beerservice.repositories.BeerRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 @Component
+@RequiredArgsConstructor
 public class BeerLoader implements CommandLineRunner {
 
-    private final BeerRepository beerRepository;
+    public static final String BEER_1_UPC = "0631";
+    public static final String BEER_2_UPC = "0632";
+    public static final String BEER_3_UPC = "0633";
 
-    public BeerLoader(BeerRepository beerRepository) {
-        this.beerRepository = beerRepository;
-    }
+    private final BeerRepository beerRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -28,7 +30,7 @@ public class BeerLoader implements CommandLineRunner {
                     .style("Tumno")
                     .quantityToBrew(200)
                     .minOnHand(12)
-                    .upc(4832362L)
+                    .upc(BEER_1_UPC)
                     .price(new BigDecimal("12.95"))
                     .build());
 
@@ -37,8 +39,17 @@ public class BeerLoader implements CommandLineRunner {
                     .style("Svetlo")
                     .quantityToBrew(200)
                     .minOnHand(12)
-                    .upc(13214L)
+                    .upc(BEER_2_UPC)
                     .price(new BigDecimal("11.95"))
+                    .build());
+
+            beerRepository.save(Beer.builder()
+                    .name("Burgasko")
+                    .style("Svetlo")
+                    .quantityToBrew(200)
+                    .minOnHand(12)
+                    .upc(BEER_3_UPC)
+                    .price(new BigDecimal("10.95"))
                     .build());
         }
     }

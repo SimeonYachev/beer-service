@@ -5,7 +5,7 @@ import com.scalefocus.java.simeonyachev.beerservice.repositories.BeerRepository;
 import com.scalefocus.java.simeonyachev.beerservice.services.BeerService;
 import com.scalefocus.java.simeonyachev.beerservice.web.controller.NotFoundException;
 import com.scalefocus.java.simeonyachev.beerservice.web.mappers.BeerMapper;
-import com.scalefocus.java.simeonyachev.beerservice.web.model.BeerDTO;
+import com.scalefocus.java.simeonyachev.beerservice.web.model.BeerDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,24 +19,24 @@ public class BeerServiceImpl implements BeerService {
     private final BeerRepository beerRepository;
 
     @Override
-    public BeerDTO getById(UUID beerId) {
-        return beerMapper.beerToBeerDTO(beerRepository.findById(beerId).orElseThrow(NotFoundException::new));
+    public BeerDto getById(UUID beerId) {
+        return beerMapper.beerToBeerDto(beerRepository.findById(beerId).orElseThrow(NotFoundException::new));
     }
 
     @Override
-    public BeerDTO saveNewBeer(BeerDTO beerDTO) {
-        return beerMapper.beerToBeerDTO(beerRepository.save(beerMapper.beerDTOToBeer(beerDTO)));
+    public BeerDto saveNewBeer(BeerDto beerDto) {
+        return beerMapper.beerToBeerDto(beerRepository.save(beerMapper.beerDtoToBeer(beerDto)));
     }
 
     @Override
-    public BeerDTO updateBeer(UUID beerId, BeerDTO beerDTO) {
+    public BeerDto updateBeer(UUID beerId, BeerDto beerDto) {
         Beer beer = beerRepository.findById(beerId).orElseThrow(NotFoundException::new);
 
-        beer.setName(beerDTO.getName());
-        beer.setStyle(beerDTO.getStyle().name());
-        beer.setPrice(beerDTO.getPrice());
-        beer.setUpc(beerDTO.getUpc());
+        beer.setName(beerDto.getName());
+        beer.setStyle(beerDto.getStyle().name());
+        beer.setPrice(beerDto.getPrice());
+        beer.setUpc(beerDto.getUpc());
 
-        return beerMapper.beerToBeerDTO(beerRepository.save(beer));
+        return beerMapper.beerToBeerDto(beerRepository.save(beer));
     }
 }

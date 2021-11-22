@@ -1,13 +1,13 @@
 package com.scalefocus.java.simeonyachev.beerservice.services;
 
-import com.scalefocus.java.simeonyachev.beerservice.web.model.BeerDTO;
+import com.scalefocus.java.simeonyachev.beerservice.web.model.BeerDto;
 
 import java.util.UUID;
 
 public interface BeerService {
-    BeerDTO getById(UUID beerId);
+    BeerDto getById(UUID beerId);
 
-    BeerDTO saveNewBeer(BeerDTO beerDTO);
+    BeerDto saveNewBeer(BeerDto beerDTO);
 
-    BeerDTO updateBeer(UUID beerId, BeerDTO beerDTO);
+    BeerDto updateBeer(UUID beerId, BeerDto beerDTO);
 }

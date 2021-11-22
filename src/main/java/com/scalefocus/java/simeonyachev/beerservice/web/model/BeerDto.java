@@ -17,7 +17,7 @@ import static com.fasterxml.jackson.annotation.JsonFormat.Shape.STRING;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BeerDTO {
+public class BeerDto {
 
     @Null
     private UUID id;
@@ -28,10 +28,10 @@ public class BeerDTO {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ", shape = STRING)
     private OffsetDateTime createdDate;
     @Null
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssZ", shape = STRING)
     private OffsetDateTime lastModifiedDate;
 
     @NotBlank
-    @Size(min = 3, max = 100)
     private String name;
 
     @NotNull
@@ -43,8 +43,7 @@ public class BeerDTO {
     private BigDecimal price;
 
     @NotNull
-    @Positive
-    private Long upc;
+    private String upc;
 
     @Positive
     private Integer quantityOnHand;
